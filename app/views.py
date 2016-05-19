@@ -1,8 +1,7 @@
 import json
-import serial
+# import serial
 from flask import render_template, request
 from flask.views import MethodView
-from app import app
 
 
 #ser = serial.Serial('/dev/cu.usbmodem1421', 19200)
