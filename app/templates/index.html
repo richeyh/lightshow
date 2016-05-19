@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container text-center">
+    <h2>Welcome to Lightshow</h2>
+    <div class="panel panel-info">
+      <div class="panel-heading"><strong>Lightshow Settings</strong></div>
+      <div class="panel-body">
+        <h3>Brightness</h3>
+        <input id="brightness" class="brightness-slider" style="" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="200"/>
+      </div>
+  </div>
+  <div class="panel-group">
+    {% for mode in modes %}
+      <div class="panel panel-info">
+        <div class="panel-heading"><h4>{{ mode.name }}</h4></div>
+        <div class="panel-body">
+          <table class="table borderless">
+            <tbody>
+              <tr>
+                <td class="text-center" style="width:30%"><h3>{{ mode.name }}</h3></td>
+                <td class="text-center" style="width:40%">
+                  {% for control in mode.controls %}
+                    {% if control.type == "color" %}
+                      <div class="input-group colorpicker-component">
+                        <input id="c{{ mode.opmode }}" type="text" value="#00AABB" class="form-control" />
+                        <span class="input-group-addon"><i></i></span>
+                      </div>
+                      <div>
+                          <strong>{{ control.name }}</strong>
+                      </div>
+                    {% elif control.type == "value" %}
+                      <div class="input-group center-block">
+                        <input id="v{{ mode.opmode }}" class="value-slider" style="" data-slider-id='ex1Slider' type="text" data-slider-min="{{ control.rangelower }}" data-slider-max="{{ control.rangeupper }}" data-slider-step="1" data-slider-value="200"/>
+                        <div>
+                          <strong>{{ control.name }}</strong>
+                        </div>
+                      </div>
+                    {% elif control.type == "time" %}
+                      <div class="input-group center-block">
+                        <div>
+                          <input id="t{{ mode.opmode }}" class="speed-slider" style="" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="200"/>
+                        </div>
+                        <div>
+                          <strong>{{ control.name }}</strong>
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </td>
+                <td class="text-center" style="width:30%">
+                  <button class="btn btn-lg btn-success btn-block" onclick='playShow("{{loop.index0}}")'>Play {{ mode.name }}</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+   <script>
+    function playShow(opmode){
+      var data = {"opmode": opmode};
+      if(opmode != 0){
+        data["time"] = document.getElementById("t" + opmode).value
+        data["value"] = document.getElementById("v" + opmode).value
+      }
+      if(opmode == 0 || opmode == 2 || opmode == 3){
+        data["color"] = document.getElementById("c" + opmode).value
+      }
+      
+      $.ajax({
+        url: "/playShow",
+        data: JSON.stringify(data),
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        success: function(response){
+          
+        },
+        error: function(error){
+          window.alert("Could not play show.");
+          console.log(error);
+        }
+      });
+    }
+    $(function() {
+        $('.colorpicker-component').colorpicker();
+        $('.brightness-slider').slider({
+          formatter: function(value) {
+            var percent = (value / 2.55);
+            return 'Brightness: ' + Math.floor(percent) + '%';
+          }
+        });
+        $('.value-slider').slider({
+          formatter: function(value) {
+            return 'Current value: ' + value;
+          }
+        });
+        $('.speed-slider').slider({
+          formatter: function(value) {
+            return 'Speed: ' + value + '%';
+          }
+        });
+        $('.slider-selection').css('background', '#74C474');
+        $('.slider-track-high').css('background', '#BBBBBB');
+    });
+  </script>
+{% endblock %}

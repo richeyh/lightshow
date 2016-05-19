@@ -1,0 +1,15 @@
+for f from 0 to 6 by 2:
+	for i from 0 to LED_COUNT:
+		if i % 6 == f:
+			setPixel(i, 0, 0, 255)
+		elif i % 6 == (f + 1) % 6:
+			setPixel(i, 0, 255, 0)
+		elif i % 6 == (f + 2) % 6:
+			setPixel(i, 255, 0, 0)
+		else:
+			setPixel(i, 0, 0, 0)
+	show()
+	delay()
+	var +=     3
+	var+=2
+print()

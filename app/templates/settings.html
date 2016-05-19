@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+    <div container="container">
+    <div class="panel-group">
+  		{% for setting in settings %}
+        <div class="panel panel-info">
+          <div class="panel-heading"><strong>{{ setting.name }}</strong></div>
+          <div class="panel-body text-center">
+            <form action="#" method="post" name="{{ setting.name }}">
+              {{ setting.form.hidden_tag() }}
+              {% for formitem in setting.form %}
+                {% if formitem != setting.form.csrf_token %}
+
+                  <div class="form-group">
+                    <label>{{ formitem.label }}</label><br>
+                    {{ formitem }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+	</div>
+{% endblock %}

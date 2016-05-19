@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<title>{{ title }} - Lightshow</title>
+		<script src="/static/js/jquery.min.js"></script>
+		<link href="/static/css/bootstrap.min.css?q=123456" rel="stylesheet" media="screen">
+		<script src="/static/js/bootstrap.min.js"></script>
+		<script src="/static/js/bootstrap-slider.js"></script>
+		<link href="/static/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+		<link href="/static/dist/css/bootstrap-slider.css" rel="stylesheet">
+	    <script src="/static/dist/js/bootstrap-colorpicker.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+		<script type="text/javascript">
+			$(document).ready(function(){
+			    window.setInterval(flash, 500);
+			    function flash(){
+			    	var warnings = document.getElementsByClassName("warning");
+			    	var i;
+			    	for(i = 0; i < warnings.length; i++){
+				    	if(warnings[i].className.indexOf("alert-warning") > -1)
+				    		warnings[i].className = "alert alert-danger warning";
+				    	else
+			    			warnings[i].className = "alert alert-warning warning";	
+			    	}
+			    }
+			});
+		</script>
+		<nav class="navbar navbar-default navbar-static-top">
+			<div class="container center-block">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">Lightshow</a>
+				</div>
+			</div>
+		</nav>
+		<div class="container center-block">
+		{% block content %}{% endblock %}
+		</div>
+	</body>
+</html>
