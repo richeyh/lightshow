@@ -2,6 +2,7 @@ import json
 # import serial
 from flask import render_template, request
 from flask.views import MethodView
+from models import LightScript
 
 
 #ser = serial.Serial('/dev/cu.usbmodem1421', 19200)
@@ -62,3 +63,10 @@ class PlayView(MethodView):
         for char in message:
             ser.write(chr(ord(char)))
         return json.dumps({"status": "OK"})
+
+
+class GridView(MethodView):
+
+    def get(self):
+        scripts = LightScript.query.all()
+        return render_template("grid.html", title="grid", scripts=scripts)
