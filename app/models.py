@@ -1,4 +1,4 @@
-from app import DB
+from extensions import DB
 
 
 class LightScript(DB.Model):
@@ -10,6 +10,8 @@ class LightScript(DB.Model):
     speed : flag to determine if speed flag is required
     division : flag to determine if subdivision is required
     """
+    __tablename__ = "scripts"
+    id = DB.Column(DB.Integer, primary_key=True)
     script = DB.Column(DB.Text)
     color_one = DB.Column(DB.Boolean())
     color_two = DB.Column(DB.Boolean())
