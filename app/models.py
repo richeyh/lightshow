@@ -12,6 +12,7 @@ class LightScript(DB.Model):
     """
     __tablename__ = "scripts"
     id = DB.Column(DB.Integer, primary_key=True)
+    name = DB.Column(DB.String(150))
     script = DB.Column(DB.Text)
     color_one = DB.Column(DB.Boolean())
     color_two = DB.Column(DB.Boolean())
