@@ -4,6 +4,7 @@ from extensions import DB
 class LightScript(DB.Model):
     """
     The lightscript object to store to the DB
+    name : name of script to appear on grids
     script : the script stored in the DB
     color_one : flag to determine if a first color input is required
     color_two : flag to determine if a second color input is required
