@@ -1,6 +1,12 @@
 from extensions import DB
 
 
+script_selector = DB.Table('script_selector', DB.Model.metadata,
+    DB.Column('script_id', DB.Integer, DB.ForeignKey('scripts.id')),
+    DB.Column('selector_id', DB.Integer, DB.ForeignKey('selector.id'))
+)
+
+
 class LightScript(DB.Model):
     """
     The lightscript object to store to the DB
@@ -15,7 +21,26 @@ class LightScript(DB.Model):
     id = DB.Column(DB.Integer, primary_key=True)
     name = DB.Column(DB.String(150))
     script = DB.Column(DB.Text)
-    color_one = DB.Column(DB.Boolean())
-    color_two = DB.Column(DB.Boolean())
-    speed = DB.Column(DB.Boolean())
-    division = DB.Column(DB.Boolean())
+    selectors = DB.relationship(
+        "Selector",
+        secondary=script_selector)
+
+    def __str__(self):
+        return self.name
+
+
+class Selector(DB.Model):
+    """
+    selector objects for colors and sliders
+    name : name of the selector ie color one
+    html: html to render the selector
+    js: js needed to render the selector in the widget
+    """
+    __tablename__ = "selector"
+    id = DB.Column(DB.Integer, primary_key=True)
+    name = DB.Column(DB.String(150))
+    html = DB.Column(DB.Text)
+    js = DB.Column(DB.Text)
+
+    def __str__(self):
+        return self.name

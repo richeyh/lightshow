@@ -2,7 +2,7 @@ import json
 # import serial
 from flask import render_template, request
 from flask.views import MethodView
-from models import LightScript
+from models import LightScript, Selector
 
 
 #ser = serial.Serial('/dev/cu.usbmodem1421', 19200)
@@ -69,4 +69,6 @@ class GridView(MethodView):
 
     def get(self):
         scripts = LightScript.query.all()
-        return render_template("grid.html", title="grid", scripts=scripts)
+        selectors = Selector.query.all()
+        return render_template("grid.html", title="grid", scripts=scripts,
+                               selectors=selectors)
